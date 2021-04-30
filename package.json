@@ -21,8 +21,8 @@
   },
   "scripts": {
     "test": "jest",
-    "test:cov": "jest --coverage",
-    "start": "DEBUG=express:* node --http-parser=legacy .",
+    "test:cov": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "start": "DEBUG=express:* node .",
     "format": "prettier-standard --format",
     "lint": "prettier-standard --format --check"
   },

@@ -4,7 +4,7 @@
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Click To Call CI](https://github.com/FreeClimbAPI/Node-Click-To-Call-Tutorial/actions/workflows/node-click-to-call-sample.yaml/badge.svg?branch=main)](https://github.com/FreeClimbAPI/Node-Click-To-Call-Tutorial/actions/workflows/node-click-to-call-sample.yaml)
-[![Coverage Status](https://coveralls.io/repos/github/FreeClimbAPI/Node-Click-To-Call-Tutorial/badge.svg?branch=master)](https://coveralls.io/github/FreeClimbAPI/Node-Click-To-Call-Tutorial?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/FreeClimbAPI/Node-Click-To-Call-Tutorial/badge.svg?branch=master)](https://coveralls.io/github/FreeClimbAPI/Node-Click-To-Call-Tutorial?branch=main)
 
 This project serves as a guide to help you build a click to call application with [FreeClimb](https://docs.freeclimb.com/docs/how-freeclimb-works).
 

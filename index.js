@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const handlebars = require('express-handlebars')
 const freeclimb = require('./freeclimb')
 const calls = require('./calls')
-const conferences = require ('./conferences')
+const conferences = require('./conferences')
 
 const app = express()
 
@@ -33,9 +33,11 @@ app.post('/startCall', async (req, res) => {
         res.status(200).render('callMade')
     } catch (err) {
         console.error(err)
-        res.status(500).render('inputPhone', { error: 'Your call could not be made. Please ensure you have correctly entered both phone numbers.' })
+        res.status(500).render('inputPhone', {
+            error:
+                'Your call could not be made. Please ensure you have correctly entered both phone numbers.'
+        })
     }
-
 })
 
 app.post('/agentPickup/:caller', async (req, res) => {
@@ -52,7 +54,13 @@ app.post('/conferenceCreated/:caller', async (req, res) => {
     const caller = req.params.caller
     res.status(200).json(
         freeclimb.percl.build(
-            freeclimb.percl.outDial(caller, process.env.FC_NUMBER, `${host}/userCalled/${conferenceId}`, `${host}/userConnected/${conferenceId}`, { ifMachine: freeclimb.enums.ifMachine.HANGUP})
+            freeclimb.percl.outDial(
+                caller,
+                process.env.FC_NUMBER,
+                `${host}/userCalled/${conferenceId}`,
+                `${host}/userConnected/${conferenceId}`,
+                { ifMachine: freeclimb.enums.ifMachine.HANGUP }
+            )
         )
     )
 })
@@ -62,19 +70,16 @@ app.post('/userCalled/:conferenceId', (req, res) => {
     const callId = req.body.callId
     res.status(200).json(
         freeclimb.percl.build(
-            freeclimb.percl.say("please wait while we attempt to add your client to the call"),
-            freeclimb.percl.addToConference(conferenceId, callId, { leaveConferenceUrl: `${host}/leftConference` })
+            freeclimb.percl.say('please wait while we attempt to add your client to the call'),
+            freeclimb.percl.addToConference(conferenceId, callId, {
+                leaveConferenceUrl: `${host}/leftConference`
+            })
         )
     )
 })
 
 app.post('/hangup', (req, res) => {
-    
-    res.status(200).json(
-        freeclimb.percl.build(
-            freeclimb.percl.hangup()
-        )
-    )
+    res.status(200).json(freeclimb.percl.build(freeclimb.percl.hangup()))
 })
 
 app.post('/userConnected/:conferenceId', (req, res) => {
@@ -85,7 +90,9 @@ app.post('/userConnected/:conferenceId', (req, res) => {
     }
     res.status(200).json(
         freeclimb.percl.build(
-            freeclimb.percl.addToConference(conferenceId, callId, { leaveConferenceUrl: `${host}/leftConference` })
+            freeclimb.percl.addToConference(conferenceId, callId, {
+                leaveConferenceUrl: `${host}/leftConference`
+            })
         )
     )
 })
@@ -96,11 +103,11 @@ app.post('/leftConference', async (req, res) => {
     res.status(200).json([])
 })
 
-async function terminateConference(conferenceId) {
+async function terminateConference (conferenceId) {
     const conference = await conferences.get(conferenceId)
     const status = conference.status
     if (status !== 'terminated') {
-        conferences.update(conferenceId,freeclimb.enums.conferenceStatus.TERMINATED)
+        conferences.update(conferenceId, freeclimb.enums.conferenceStatus.TERMINATED)
     }
 }
 

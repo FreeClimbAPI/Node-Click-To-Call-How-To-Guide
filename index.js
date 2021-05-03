@@ -82,11 +82,11 @@ app.post('/hangup', (req, res) => {
     res.status(200).json(freeclimb.percl.build(freeclimb.percl.hangup()))
 })
 
-app.post('/userConnected/:conferenceId', (req, res) => {
+app.post('/userConnected/:conferenceId', async (req, res) => {
     const conferenceId = req.params.conferenceId
     const callId = req.body.callId
     if (req.body.dialCallStatus != freeclimb.enums.callStatus.IN_PROGRESS) {
-        terminateConference(conferenceId)
+        await conferences.terminate(conferenceId)
     }
     res.status(200).json(
         freeclimb.percl.build(

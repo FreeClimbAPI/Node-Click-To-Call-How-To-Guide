@@ -1,6 +1,6 @@
 const freeclimb = require('./freeclimb')
 
-exports.terminate = async (conferenceId) =>{
+exports.terminate = async conferenceId => {
     const conference = await freeclimb.api.conferences.get(conferenceId)
     const status = conference.status
 
@@ -8,7 +8,5 @@ exports.terminate = async (conferenceId) =>{
         await freeclimb.api.conferences.update(conferenceId, {
             status: freeclimb.enums.conferenceStatus.TERMINATED
         })
-        
     }
 }
-

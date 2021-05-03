@@ -99,17 +99,9 @@ app.post('/userConnected/:conferenceId', (req, res) => {
 
 app.post('/leftConference', async (req, res) => {
     const conferenceId = req.body.conferenceId
-    terminateConference(conferenceId)
+    await conferences.terminate(conferenceId)
     res.status(200).json([])
 })
-
-async function terminateConference (conferenceId) {
-    const conference = await conferences.get(conferenceId)
-    const status = conference.status
-    if (status !== 'terminated') {
-        conferences.update(conferenceId, freeclimb.enums.conferenceStatus.TERMINATED)
-    }
-}
 
 if (process.env.NODE_ENV !== 'test') {
     app.listen(port, () => {

@@ -8,7 +8,7 @@ beforeEach(() => {
 })
 
 describe('GET /', () => {
-    it('renders the inputPhone template', async () => {
+    it(' / returns status 200 (sample test)', async () => {
         const res = await request.get('/')
         expect(res.status).toBe(200)
     })

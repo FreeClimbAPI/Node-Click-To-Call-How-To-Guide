@@ -1,0 +1,12 @@
+<p>Please enter your phone number and the phone number of the desired agent in E.164 format (e.g. +1234567891)</p>
+<form method="post" action="/startCall">
+    <input type="tel" name="caller" placeholder="Your number" />
+    <br />
+    <input type="tel" name="agent" placeholder="Agent Number" />
+    <br />
+    <input type="submit" value="Submit" />
+</form>
+
+{{#if error}}
+<p>{{error}}</p>
+{{/if}}

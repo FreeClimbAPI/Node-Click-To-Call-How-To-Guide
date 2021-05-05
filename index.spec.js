@@ -1,5 +1,3 @@
-const { expect } = require('@jest/globals')
-
 let request
 
 const host = process.env.HOST

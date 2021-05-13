@@ -10,12 +10,13 @@ This project serves as a guide to help you build a click to call application wit
 
 Specifically, the project will:
 
-- Create an outgoing call using the FreeClimb API
-- Use Percl to create a conference
-- Connect multiple callers through a conference
+- Get phone numbers via a webpage
+- Create an outgoing call using the [FreeClimb API](https://docs.freeclimb.com/reference/using-the-api)
+- Create a conference using [PerCL](https://docs.freeclimb.com/reference/percl-overview)
+- Connect an agenct and caller in a conference using [PerCL](https://docs.freeclimb.com/reference/percl-overview)
 
 ## Tutorial
-
+We offer a [Click to Call via Web Browser tutorial](https://docs.freeclimb.com/docs/click-to-call-via-web-browser) for more detailed set-up instructions and explanation of how the code in this click to call sample app works.
 
 
 ## Requirements

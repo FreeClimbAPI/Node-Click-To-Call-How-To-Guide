@@ -16,7 +16,7 @@ Specifically, the project will:
 - Connect an agenct and caller in a conference using [PerCL](https://docs.freeclimb.com/reference/percl-overview)
 
 ## Sample App How-To Guide
-We offer a [Click to Call via Web Browser tutorial](https://docs.freeclimb.com/docs/click-to-call-via-web-browser) for more detailed set-up instructions and explanation of how the code in this click to call sample app works.
+We offer a [Click to Call via Web Browser How-To Guide](https://docs.freeclimb.com/docs/click-to-call-via-web-browser) for more detailed set-up instructions and explanation of how the code in this click to call sample app works.
 
 
 ## Requirements

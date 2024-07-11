@@ -1,4 +1,4 @@
-# Node Click To Call Tutorial
+# Node Click To Call How-To Guide
 
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
@@ -15,7 +15,7 @@ Specifically, the project will:
 - Create a conference using [PerCL](https://docs.freeclimb.com/reference/percl-overview)
 - Connect an agenct and caller in a conference using [PerCL](https://docs.freeclimb.com/reference/percl-overview)
 
-## Tutorial
+## Sample App How-To Guide
 We offer a [Click to Call via Web Browser tutorial](https://docs.freeclimb.com/docs/click-to-call-via-web-browser) for more detailed set-up instructions and explanation of how the code in this click to call sample app works.
 
 

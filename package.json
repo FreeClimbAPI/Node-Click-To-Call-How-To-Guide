@@ -1,7 +1,7 @@
 {
-  "name": "Node_Click_To_Call_Tutorial",
+  "name": "Node_Click_To_Call_How_To_Guide",
   "version": "1.0.0",
-  "description": "Basic click to call tutorial",
+  "description": "Basic click to call how-to guide",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {

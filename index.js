@@ -2,6 +2,7 @@ require('dotenv-safe').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const handlebars = require('express-handlebars')
+const { PerclScript, CreateConference, OutDial, IfMachine, Say, AddToConference } = require('@freeclimb/sdk')
 const freeclimb = require('./freeclimb')
 const calls = require('./calls')
 const conferences = require('./conferences')
@@ -42,40 +43,39 @@ app.post('/startCall', async (req, res) => {
 
 app.post('/agentPickup/:caller', async (req, res) => {
     const caller = req.params.caller
-    res.status(200).json(
-        freeclimb.percl.build(
-            freeclimb.percl.createConference(`${host}/conferenceCreated/${caller}`)
-        )
-    )
+
+    res.status(200).json(new PerclScript({
+        commands: [
+            new CreateConference({ actionUrl: `${host}/conferenceCreated/${caller}` })
+        ]
+    }).build())
 })
 
 app.post('/conferenceCreated/:caller', async (req, res) => {
-    const conferenceId = req.body.conferenceId
-    const caller = req.params.caller
-    res.status(200).json(
-        freeclimb.percl.build(
-            freeclimb.percl.outDial(
-                caller,
-                process.env.FC_NUMBER,
-                `${host}/userCalled/${conferenceId}`,
-                `${host}/userConnected/${conferenceId}`,
-                { ifMachine: freeclimb.enums.ifMachine.HANGUP }
-            )
-        )
-    )
+    res.status(200).json(new PerclScript({
+        commands: [
+            new OutDial({
+                callingNumber: req.params.caller,
+                destination: process.env.FC_NUMBER,
+                actionUrl: `${host}/userCalled/${req.body.conferenceId}`,
+                callConnectUrl: `${host}/userConnected/${conferenceId}`,
+                ifMachine: IfMachine.HANGUP
+            })
+        ]
+    }).build())
 })
 
 app.post('/userCalled/:conferenceId', (req, res) => {
-    const conferenceId = req.params.conferenceId
-    const callId = req.body.callId
-    res.status(200).json(
-        freeclimb.percl.build(
-            freeclimb.percl.say('please wait while we attempt to add your client to the call'),
-            freeclimb.percl.addToConference(conferenceId, callId, {
+    res.status(200).json(new PerclScript({
+        commands: [
+            new Say({ text: "Please wait while we attempt to add your client to the call" }),
+            new AddToConference({
+                conferenceId: req.params.conferenceId,
+                callId: req.body.callId,
                 leaveConferenceUrl: `${host}/leftConference`
             })
-        )
-    )
+        ]
+    }).build())
 })
 
 app.post('/userConnected/:conferenceId', async (req, res) => {
@@ -85,13 +85,15 @@ app.post('/userConnected/:conferenceId', async (req, res) => {
         await conferences.terminate(conferenceId)
         res.status(500).json([])
     } else {
-        res.status(200).json(
-            freeclimb.percl.build(
-                freeclimb.percl.addToConference(conferenceId, callId, {
+        res.status(200).json(new PerclScript({
+            commands: [
+                new AddToConference({
+                    conferenceId,
+                    callId,
                     leaveConferenceUrl: `${host}/leftConference`
                 })
-            )
-        )
+            ]
+        }).build())
     }
 })
 

@@ -1,9 +1,6 @@
 const freeclimb = require('./freeclimb')
 
 exports.createCall = async (to, from, callback) => {
-    const appId = process.env.APP_ID
-    await freeclimb.api.calls.create(to, from, appId, {
-        callConnectUrl: callback,
-        ifMachine: freeclimb.enums.ifMachine.HANGUP
-    })
+    const applicationId = process.env.APP_ID
+    await freeclimb.makeACall({ to, from, applicationId, callConnectUrl: callback, ifMachine: freeclimb.IfMachine.HANGUP })
 }

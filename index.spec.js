@@ -36,7 +36,7 @@ describe('POST /reset', () => {
 describe('POST /startCall', () => {
     it('attempts outdial and returns status code 200 on success', async () => {
         const calls = require('./calls')
-        const fcSpy = jest.spyOn(calls, 'createCall').mockImplementation((to, from, callback) => {})
+        const fcSpy = jest.spyOn(calls, 'createCall').mockImplementation((to, from, callback) => { })
         const res = await request.post('/startCall', {
             caller: '+11001001001',
             agent: '+11001001001'
@@ -69,7 +69,8 @@ describe('POST /agentPickup/:caller', () => {
         expect(res.body).toStrictEqual([
             {
                 CreateConference: {
-                    actionUrl: `${host}/conferenceCreated/+1`
+                    actionUrl: `${host}/conferenceCreated/+1`,
+                    playBeep: "always"
                 }
             }
         ])
@@ -107,12 +108,12 @@ describe('POST /userCalled/:conferenceId', () => {
         expect(res.body).toStrictEqual([
             {
                 Say: {
-                    text: 'please wait while we attempt to add your client to the call'
+                    text: 'please wait while we attempt to add your client to the call',
+                    loop: 1
                 }
             },
             {
                 AddToConference: {
-                    callId: 'fakeCallId',
                     conferenceId: 'fakeConferenceId',
                     leaveConferenceUrl: `${host}/leftConference`
                 }
@@ -131,7 +132,6 @@ describe('POST /userConnected/:conferenceId', () => {
         expect(res.body).toStrictEqual([
             {
                 AddToConference: {
-                    callId: 'fakeCallId',
                     conferenceId: 'fakeConferenceId',
                     leaveConferenceUrl: `${host}/leftConference`
                 }
@@ -141,7 +141,7 @@ describe('POST /userConnected/:conferenceId', () => {
 
     it('terminates the call if the agent has not picked up', async () => {
         const conferences = require('./conferences')
-        const fcSpy = jest.spyOn(conferences, 'terminate').mockImplementation(conferenceId => {})
+        const fcSpy = jest.spyOn(conferences, 'terminate').mockImplementation(conferenceId => { })
 
         const res = await request
             .post('/userConnected/fakeConferenceId')
@@ -156,7 +156,7 @@ describe('POST /userConnected/:conferenceId', () => {
 describe('POST /leftConference', () => {
     it('invokes the command to terminate the conference', async () => {
         const conferences = require('./conferences')
-        const fcSpy = jest.spyOn(conferences, 'terminate').mockImplementation(conferenceId => {})
+        const fcSpy = jest.spyOn(conferences, 'terminate').mockImplementation(conferenceId => { })
 
         const res = await request
             .post('/leftConference')

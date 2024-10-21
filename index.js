@@ -63,8 +63,8 @@ app.post('/conferenceCreated/:caller', async (req, res) => {
         new PerclScript({
             commands: [
                 new OutDial({
-                    callingNumber: req.params.caller,
-                    destination: process.env.FC_NUMBER,
+                    callingNumber: process.env.FC_NUMBER,
+                    destination: req.params.caller,
                     actionUrl: `${host}/userCalled/${req.body.conferenceId}`,
                     callConnectUrl: `${host}/userConnected/${req.body.conferenceId}`,
                     ifMachine: IfMachine.HANGUP
@@ -78,10 +78,9 @@ app.post('/userCalled/:conferenceId', (req, res) => {
     res.status(200).json(
         new PerclScript({
             commands: [
-                new Say({ text: 'Please wait while we attempt to add your client to the call' }),
+                new Say({ text: 'please wait while we attempt to add your client to the call' }),
                 new AddToConference({
                     conferenceId: req.params.conferenceId,
-                    callId: req.body.callId,
                     leaveConferenceUrl: `${host}/leftConference`
                 })
             ]
@@ -91,7 +90,6 @@ app.post('/userCalled/:conferenceId', (req, res) => {
 
 app.post('/userConnected/:conferenceId', async (req, res) => {
     const conferenceId = req.params.conferenceId
-    const callId = req.body.callId
     if (req.body.dialCallStatus != CallStatus.IN_PROGRESS) {
         await conferences.terminate(conferenceId)
         res.status(500).json([])
@@ -101,7 +99,6 @@ app.post('/userConnected/:conferenceId', async (req, res) => {
                 commands: [
                     new AddToConference({
                         conferenceId,
-                        callId,
                         leaveConferenceUrl: `${host}/leftConference`
                     })
                 ]

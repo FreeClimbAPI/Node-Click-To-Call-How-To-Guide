@@ -2,7 +2,7 @@ require('dotenv-safe').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const handlebars = require('express-handlebars')
-const { PerclScript, CreateConference, OutDial, IfMachine, Say, AddToConference } = require('@freeclimb/sdk')
+const { PerclScript, CreateConference, OutDial, IfMachine, Say, AddToConference, CallStatus } = require('@freeclimb/sdk')
 const freeclimb = require('./freeclimb')
 const calls = require('./calls')
 const conferences = require('./conferences')
@@ -58,7 +58,7 @@ app.post('/conferenceCreated/:caller', async (req, res) => {
                 callingNumber: req.params.caller,
                 destination: process.env.FC_NUMBER,
                 actionUrl: `${host}/userCalled/${req.body.conferenceId}`,
-                callConnectUrl: `${host}/userConnected/${conferenceId}`,
+                callConnectUrl: `${host}/userConnected/${req.body.conferenceId}`,
                 ifMachine: IfMachine.HANGUP
             })
         ]
@@ -81,7 +81,7 @@ app.post('/userCalled/:conferenceId', (req, res) => {
 app.post('/userConnected/:conferenceId', async (req, res) => {
     const conferenceId = req.params.conferenceId
     const callId = req.body.callId
-    if (req.body.dialCallStatus != freeclimb.enums.callStatus.IN_PROGRESS) {
+    if (req.body.dialCallStatus != CallStatus.IN_PROGRESS) {
         await conferences.terminate(conferenceId)
         res.status(500).json([])
     } else {

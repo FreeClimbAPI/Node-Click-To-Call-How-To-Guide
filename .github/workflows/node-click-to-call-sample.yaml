@@ -1,7 +1,7 @@
 name: Click To Call CI
 on:
     push:
-        
+
 defaults:
     run:
         working-directory: .
@@ -12,7 +12,7 @@ jobs:
         strategy:
             matrix:
                 os: [ubuntu-latest]
-                node-version`: [12.x, 14.x]
+                node-version`: [18.x]
         runs-on: ${{ matrix.os }}
         steps:
             - uses: actions/checkout@v2
@@ -27,12 +27,12 @@ jobs:
             - name: Test
               run: yarn test:cov
               env:
-                  API_KEY: 'N/A'
-                  ACCOUNT_ID: 'N/A'
-                  APP_ID: 'N/A'
-                  FC_NUMBER: 'N/A'
-                  PORT: '3000'
-                  HOST: 'http://localhost:3000'
+                  API_KEY: "N/A"
+                  ACCOUNT_ID: "N/A"
+                  APP_ID: "N/A"
+                  FC_NUMBER: "N/A"
+                  PORT: "3000"
+                  HOST: "http://localhost:3000"
             - name: Coveralls
               uses: coverallsapp/github-action@master
               with:

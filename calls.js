@@ -1,9 +1,13 @@
 const freeclimb = require('./freeclimb')
+const { IfMachine } = require('@freeclimb/sdk')
 
 exports.createCall = async (to, from, callback) => {
-    const appId = process.env.APP_ID
-    await freeclimb.api.calls.create(to, from, appId, {
+    const applicationId = process.env.APP_ID
+    await freeclimb.makeACall({
+        to,
+        from,
+        applicationId,
         callConnectUrl: callback,
-        ifMachine: freeclimb.enums.ifMachine.HANGUP
+        ifMachine: IfMachine.HANGUP
     })
 }

@@ -69,7 +69,8 @@ describe('POST /agentPickup/:caller', () => {
         expect(res.body).toStrictEqual([
             {
                 CreateConference: {
-                    actionUrl: `${host}/conferenceCreated/+1`
+                    actionUrl: `${host}/conferenceCreated/+1`,
+                    playBeep: 'always'
                 }
             }
         ])
@@ -107,12 +108,12 @@ describe('POST /userCalled/:conferenceId', () => {
         expect(res.body).toStrictEqual([
             {
                 Say: {
-                    text: 'please wait while we attempt to add your client to the call'
+                    text: 'please wait while we attempt to add your client to the call',
+                    loop: 1
                 }
             },
             {
                 AddToConference: {
-                    callId: 'fakeCallId',
                     conferenceId: 'fakeConferenceId',
                     leaveConferenceUrl: `${host}/leftConference`
                 }
@@ -131,7 +132,6 @@ describe('POST /userConnected/:conferenceId', () => {
         expect(res.body).toStrictEqual([
             {
                 AddToConference: {
-                    callId: 'fakeCallId',
                     conferenceId: 'fakeConferenceId',
                     leaveConferenceUrl: `${host}/leftConference`
                 }

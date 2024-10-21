@@ -1,12 +1,11 @@
 const freeclimb = require('./freeclimb')
+const { ConferenceStatus } = require('@freeclimb/sdk')
 
 exports.terminate = async conferenceId => {
-    const conference = await freeclimb.api.conferences.get(conferenceId)
+    const conference = await freeclimb.getAConference(conferenceId)
     const status = conference.status
 
     if (status !== 'terminated') {
-        await freeclimb.api.conferences.update(conferenceId, {
-            status: freeclimb.enums.conferenceStatus.TERMINATED
-        })
+        await freeclimb.updateAConference(conferenceId, { status: ConferenceStatus.TERMINATED })
     }
 }
